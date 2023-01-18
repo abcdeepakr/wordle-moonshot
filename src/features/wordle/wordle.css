@@ -1,0 +1,24 @@
+.row-container{
+    display: flex;
+}
+.wordle-cell{
+    padding: 1px;
+    font-size: 2rem;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    text-transform: uppercase;
+    caret-color: transparent;
+    border: 2px solid grey;
+    margin: 3px;
+}
+
+.green{
+    background-color: #2ECC71;
+}
+.grey{
+    background-color: #B2BABB;
+}
+.yellow{
+    background-color: #D4AC0D;
+}
