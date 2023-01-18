@@ -14,7 +14,7 @@ function Wordle() {
     dispatch(getWord(selectedWord))
   },[])
   return (
-    <section data-section-id ="wordle-layout-container">
+    <section data-section-id ="wordle-layout-container" className='wordle-layout'>
         <WordleGrid/>
     </section>
   )

@@ -4,6 +4,7 @@ import GridRow from './gridRow'
 import { useSelector, useDispatch } from 'react-redux';
 import {wordleState, updateGuess,updateGuessed} from '../wordleSlice'
 import { checkWordValidity, keyColorHashmap } from '../wordleAPI';
+import Keyboard from './keyboard';
 function WordleGrid() {
   const wordleData = useSelector(wordleState);
   const dispatch = useDispatch()
@@ -75,6 +76,7 @@ function WordleGrid() {
           } 
           return <GridRow key={index} prevGuess={guess}/> 
         })}
+      <Keyboard handleKeyPress = {(e) => handleKeyPress(e)} />
     </React.Fragment>
   )
   }
