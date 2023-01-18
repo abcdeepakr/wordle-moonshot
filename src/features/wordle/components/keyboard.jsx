@@ -32,11 +32,11 @@ function Keyboard(props) {
                 })}
             </div>
             <div className='keyboard-container__row'>
-                <div key="enter" className={`keyboard-key`} onClick={() =>props.handleKeyPress({key:"Enter"})}>Enter</div>
+                <div key="enter" className={`keyboard-key special`} onClick={() =>props.handleKeyPress({key:"Enter"})}>Enter</div>
                     {"zxcvbnm".split("").map(letter => {
                         return <div onClick={() =>props.handleKeyPress({key:letter})} key={letter} className={`${letterColorMapping[letter] ? `${letterColorMapping[letter]}`:""} keyboard-key`}>{letter}</div>
                     })}
-                <div key="back" className={`keyboard-key`} onClick={() => props.handleKeyPress({key:"Backspace"})}>Back</div>
+                <div key="back" className={`keyboard-key special`} onClick={() => props.handleKeyPress({key:"Backspace"})}>Back</div>
             </div>
 
         </div>
