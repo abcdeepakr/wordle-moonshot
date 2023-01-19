@@ -99,12 +99,13 @@ function WordleGrid() {
   }
   useEffect(()=>{
     window.addEventListener('keyup', handleKeyPress)
-
+    console.log("Word: ",wordleData.word)
     return () => window.removeEventListener('keyup', handleKeyPress)
     // document.addEventListener('keydown', function(event){
     //   handleKeyPress(event.key)
     // })    
   },[handleKeyPress])
+  
   return (
     <React.Fragment>
         {/* Creating 6 rows */}
