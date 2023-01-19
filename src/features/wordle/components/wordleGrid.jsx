@@ -2,46 +2,85 @@
 import React,{useState, useEffect} from 'react'
 import GridRow from './gridRow'
 import { useSelector, useDispatch } from 'react-redux';
-import {wordleState, updateGuess,updateGuessed} from '../wordleSlice'
+import {wordleState, updateGuess,updateGuessed, updateModal} from '../wordleSlice'
 import { checkWordValidity, keyColorHashmap } from '../wordleAPI';
 import Keyboard from './keyboard';
+
 function WordleGrid() {
   const wordleData = useSelector(wordleState);
   const dispatch = useDispatch()
   const [currentGuess, setCurrentGuess] = useState('')
   const [seenWords, setSeenWords] = useState([])
-  function handleKeyPress({key}){
-    // if clicked enter
-    // check if a valid word
+  const [gameEnd, setGameEnd] = useState(false)
 
+  function updateModalData(show, content){
+    dispatch(updateModal({showModal: show, modalContent: content}))
+  }
+
+  function handleKeyPress({key}){
+    // If game has ended stop taking any more key inputs
+    if(gameEnd){
+      return
+    }
+
+    // If user clicks on enter, perform the following operations
     if(key === "Enter"){
+      
+      // check if the use entered 5 letters and show modal
       if(currentGuess.length < 5){
-        alert("enter 5 letters")
+        updateModalData(true, "Enter 5 alphabets")
+        setTimeout(()=>{
+          updateModalData(false, "")    
+        },3000)
         return
       }
+
+      // check validity of the word and show modal
       const isvalidWord = checkWordValidity(currentGuess)
       if(!isvalidWord) {
-        alert("not a valid word")
+        updateModalData(true, "Not a valid word")
+        
+        setTimeout(()=>{
+          updateModalData(false, "")    
+        },3000)
         return
       }
+
+      // all guesses exhausted
       if(isvalidWord && wordleData.totalGuessed === 5){
         if(currentGuess.toLowerCase() !== wordleData.word){
-          alert("you lost")
+          updateModalData(true, "Word is : "+wordleData.word.toUpperCase())
+        setTimeout(()=>{
+          updateModalData(false, "")    
+        },3000)
+          setGameEnd(true)
         }
       }
+
+      // find word in previous tried
       if(seenWords.indexOf(currentGuess)!==-1){
-        alert("word tried already")
+        updateModalData(true, "You've tried this guess already")
+        setTimeout(()=>{
+          updateModalData(false, "")    
+        },3000)
         return
       }
-      console.log(wordleData.totalGuessed)
+
+      // create a hashmap of the keys and values
       let cellColorHashmap = keyColorHashmap(currentGuess, wordleData.word)
       let updatedSeenWords = [...seenWords]
       updatedSeenWords.push(currentGuess)
       setSeenWords(updatedSeenWords)
       dispatch(updateGuess(cellColorHashmap))
       dispatch(updateGuessed())
+
+      // game end, user guessed correct word
       if(currentGuess.toLowerCase() === wordleData.word){
-        console.log("you won")
+        updateModalData(true, wordleData.word.toUpperCase())
+        setTimeout(()=>{
+          updateModalData(false, "")    
+        },3000)
+        setGameEnd(true)
       }
       setCurrentGuess("")
       return
