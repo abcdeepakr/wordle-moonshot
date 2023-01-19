@@ -108,7 +108,7 @@ function WordleGrid() {
   return (
     <React.Fragment>
         {/* Creating 6 rows */}
-        <h3>{wordleData.word}</h3>
+        <h3>Wordle from wish.com</h3>
         {wordleData.guesses.map((guess,index) =>{
           if(index === wordleData.totalGuessed){
             return <GridRow key={index} currentGuess={currentGuess}/>   
